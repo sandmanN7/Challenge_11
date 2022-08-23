@@ -24,32 +24,31 @@ function buildTable(data) {
 }
 
 // 1. Create a variable to keep track of all the filters as an object.
-var filters = {
-};
+var filters = {};
 
 // 3. Use this function to update the filters. 
 function updateFilters() {
 
-    // 4a. Save the element that was changed as a variable.
-    let ele = d3.select(this);
-    // 4b. Save the value that was changed as a variable.
-    let val = filter.property("value");
-    // 4c. Save the id of the filter that was changed as a variable.
-    let id = filter.attr("id");
+  // 4a. Save the element that was changed as a variable.
+  let ele = d3.select(this);
+  // 4b. Save the value that was changed as a variable.
+  let val = ele.property("value");
+  // 4c. Save the id of the filter that was changed as a variable.
+  let id = ele.attr("id");
   
-    // 5. If a filter value was entered then add that filterId and value
-    // to the filters list. Otherwise, clear that filter from the filters object.
-    if(val) {
-      filters[id] = val;
-    }
-    else {
-      delete filters[id];
-    }
-  
-    // 6. Call function to apply all filters and rebuild the table
-    filterTable();
-  
+  // 5. If a filter value was entered then add that filterId and value
+  // to the filters list. Otherwise, clear that filter from the filters object.
+  if(val) {
+    filters[id] = val;
   }
+  else {
+    delete filters[id];
+  }
+  
+  // 6. Call function to apply all filters and rebuild the table
+  filterTable();
+  
+}
   
   // 7. Use this function to filter the table when data is entered.
   function filterTable() {
@@ -62,11 +61,11 @@ function updateFilters() {
     Object.keys(filters).forEach(id => filteredData = filteredData.filter(row => row[id] === filters[id]));
   
     // 10. Finally, rebuild the table using the filtered data
-    d3.selectAll("input").on("change",updateFilters);
+    buildTable(filteredData);
   }
   
   // 2. Attach an event to listen for changes to each filter
-  d3.selectAll("input").on("change",updateFilters);
+  d3.selectAll("input").on("change", updateFilters);
   
   // Build the table when the page loads
   buildTable(tableData);
